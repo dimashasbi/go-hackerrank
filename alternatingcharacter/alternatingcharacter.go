@@ -11,8 +11,11 @@ import (
 
 // Complete the alternatingCharacters function below.
 func alternatingCharacters(s string) int32 {
-	word := string[2] { "A", "B"}
-
+	var (
+		result int32
+	)
+	// word := string[2] { "A", "B"}
+	return result
 }
 
 func main() {
