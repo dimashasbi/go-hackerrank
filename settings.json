@@ -1,0 +1,19 @@
+{
+    "go.useLanguageServer": false,
+    "go.toolsGopath": "dlv",
+    "editor.formatOnSave": true,
+    "editor.suggestSelection": "first",
+    "http.proxy": "http://10.90.2.105:3128",
+    "http.proxyAuthorization": null,
+    "http.proxySupport": "override",
+    "http.systemCertificates": true,
+    "http.proxyStrictSSL": true,
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "window.zoomLevel": -1,
+    "git.autofetch": true,
+    "workbench.activityBar.visible": true,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "git.enableSmartCommit": true,
+    "explorer.confirmDelete": false,
+    "workbench.colorTheme": "Visual Studio Dark"
+}  
