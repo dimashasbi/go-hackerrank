@@ -63,8 +63,7 @@ func minimumBribes(q []int32) {
 				CountBribes += bribes
 			} else if q[i-2] > q[i-1] && q[i-1] > q[i] { // berarti dia diloncati 2 kali dan dia mencoba meloncati satu kali
 				CountBribes++
-				// } else if q[i-2] > q[i-1] && q[i-1] < q[i] { // berarti dia diloncati 2 kali dan dia mencoba meloncati satu kali
-				// 	CountBribes++
+
 			} else { // dia tidak diloncati
 				continue
 			}
@@ -88,9 +87,14 @@ func main() {
 
 	//          {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }
 	//           1  0  2  2  0  0  2  1  2   0  0 // = 10
-	q := []int32{2, 1, 5, 6, 3, 4, 9, 8, 11, 7, 10}
-	ex := "10"
-
+	// q := []int32{2, 1, 5, 6, 3, 4, 9, 8, 11, 7, 10}
+	// ex := "10"
+	// q := []int32{2, 1, 5, 6, 7, 8, 9, 10, 11, 3, 4}
+	// ex := "15"
+	// q := []int32{2, 1, 5, 6, 7, 8, 9, 10, 11, 4, 3}
+	// ex := "16"
+	q := []int32{2, 1, 5, 6, 7, 8, 9, 10, 4, 11, 3}
+	ex := "16"
 	//          {1, 2, 3, 4, 5, 6, 7, 8}
 	//           0  0  2  0  2  2  1  0   =
 	// q := []int32{1, 2, 5, 3, 7, 8, 6, 4}
