@@ -14,7 +14,7 @@ import (
 
 // 		if i >= 3 {
 // 			// jatah nya 2 x loncat
-// 			if early[i] == q[i-1] {
+// 			if early[i] == v {
 // 				early = append(early, 0)
 // 				copy(early[i:], early[i-1:])
 // 				early[i] = i
@@ -28,7 +28,7 @@ import (
 
 // 		} else if i == 2 {
 // 			// jatah nya 1 x loncat
-// 			if early[i] == q[i-1] {
+// 			if early[i] == v {
 // 				early = append(early, 0)
 // 				copy(early[i:], early[i-1:])
 // 				early[i] = i
@@ -48,29 +48,59 @@ import (
 func minimumBribes(q []int32) {
 	CountBribes := int32(0)
 	TooChaotic := false
-	for i := int32(1); i < int32(len(q)); i++ {
+	jumpedOver := make([]int, 2)
+	jumped1st := make([]int, 1)
+	jumping := make([]int, 2)
+
+	for i, x := range q {
+		i++
+		v := int(x)
 		// jika nomor #terakhir langsung break
-		if q[i-1] == 1 { // jika nomor pertama adalah 1, dia tidak disalip next saja
+		if q[0] == 1 { // jika nomor pertama adalah 1, dia tidak disalip jadi next saja
 			continue
 		}
-		slsh := q[i-1] - 3
-		// jika nomor #q[] loncat kurang dari 2 kali
-		if slsh < i {
-
-			if q[i-1] > i { // berarti dia meloncati 2 kali
-				// hitung berapa kali dia loncat
-				bribes := q[i-1] - i
-				CountBribes += bribes
-			} else if q[i-2] > q[i-1] && q[i-1] > q[i] { // berarti dia diloncati 2 kali dan dia mencoba meloncati satu kali
-				CountBribes++
-
-			} else { // dia tidak diloncati
-				continue
-			}
-
-		} else {
+		slsh := v - 3
+		if slsh >= i { // jika nomor i loncati lebih dari dua kali sudah chaotic
 			TooChaotic = true
 			break
+		} else {
+			if v-i == 0 { // dia tidak diloncati
+				continue
+			} else {
+				if jumping[0] == 0 { // menunjukkan baru awal ada salip menyalip
+					// yang meloncati masukkan ke jumping
+					jumping[0] = v
+
+					// yang diloncati masukkan ke jumpedOver
+					jumpedOver[0] = i
+
+					// jika nilai v ternyata lebih dari 2 kali, masukkan ke jump1st nilai v - 1
+					if v-i == 2 {
+						jumped1st[0] = v - 1
+					}
+
+				} else if jumpedOver[0] != 0 { // ada yang melakukan loncatan
+					if jumped1st[0] == 0 { // nilai v loncat 1 kali
+						if jumping[0] == i {
+							CountBribes++
+							jumping[0] = 0
+							jumpedOver[0] = 0
+						} else { // nilai yang meloncati tidak sama dengan nilai i
+							if jumped1st[0] == v {
+
+							} else {
+
+							}
+						}
+					} else { // nilai v loncat 2 kali
+						CountBribes++
+						jumpedOver[1] = jumped1st[0]
+						jumped1st[0] = 0
+						jumping[1] = v
+					}
+				}
+			}
+
 		}
 	}
 
@@ -87,14 +117,14 @@ func main() {
 
 	//          {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }
 	//           1  0  2  2  0  0  2  1  2   0  0 // = 10
-	// q := []int32{2, 1, 5, 6, 3, 4, 9, 8, 11, 7, 10}
-	// ex := "10"
+	q := []int32{2, 1, 5, 6, 3, 4, 9, 8, 11, 7, 10}
+	ex := "10"
 	// q := []int32{2, 1, 5, 6, 7, 8, 9, 10, 11, 3, 4}
 	// ex := "15"
 	// q := []int32{2, 1, 5, 6, 7, 8, 9, 10, 11, 4, 3}
 	// ex := "16"
-	q := []int32{2, 1, 5, 6, 7, 8, 9, 10, 4, 11, 3}
-	ex := "16"
+	// q := []int32{2, 1, 5, 6, 7, 8, 9, 10, 4, 11, 3}
+	// ex := "16"
 	//          {1, 2, 3, 4, 5, 6, 7, 8}
 	//           0  0  2  0  2  2  1  0   =
 	// q := []int32{1, 2, 5, 3, 7, 8, 6, 4}
