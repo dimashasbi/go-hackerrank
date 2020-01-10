@@ -56,7 +56,7 @@ func minimumBribes(q []int32) {
 		i++
 		v := int(x)
 		// jika nomor #terakhir langsung break
-		if q[0] == 1 { // jika nomor pertama adalah 1, dia tidak disalip jadi next saja
+		if q[0] == 1 && i == 1 { // jika nomor pertama adalah 1, dia tidak disalip jadi next saja
 			continue
 		}
 		slsh := v - 3
@@ -65,9 +65,14 @@ func minimumBribes(q []int32) {
 			break
 		} else {
 			if v-i == 0 { // dia tidak diloncati
-				continue
+				if jumped1st[0] != 0 && jumped1st[0] > jumpedOver[0] {
+					jumped1st[0] = 0
+					CountBribes++
+				} else {
+					continue
+				}
 			} else {
-				if jumping[0] == 0 { // menunjukkan baru awal ada salip menyalip
+				if jumping[0] == 0 { // menunjukkan baru awal ada salip menyalip  //
 					// yang meloncati masukkan ke jumping
 					jumping[0] = v
 
@@ -81,23 +86,48 @@ func minimumBribes(q []int32) {
 
 				} else if jumpedOver[0] != 0 { // ada yang melakukan loncatan
 					if jumped1st[0] == 0 { // nilai v loncat 1 kali
-						if jumping[0] == i {
-							CountBribes++
-							jumping[0] = 0
-							jumpedOver[0] = 0
-						} else { // nilai yang meloncati tidak sama dengan nilai i
-							if jumped1st[0] == v {
+						if jumping[0] == i { // nilai yang meloncati sama dengan nilai i
 
-							} else {
+							// jumping geser ke kiri
+							jumping[0] = jumping[1]
+							jumping[1] = 0
 
+							// masukkan data yang dilompati
+							if jumpedOver[0] == v {
+								jumpedOver[0] = jumpedOver[1]
+								jumpedOver[1] = 0
+							} else if jumpedOver[1] == v {
+								jumpedOver[1] = 0
+								CountBribes++
 							}
+
+							// perubahan //
+							if jumpedOver[0] != 0 && v > i {
+								if jumping[0] == 0 {
+									jumping[0] = v
+								} else {
+									jumping[1] = v
+								}
+							}
+
+						} else { // nilai yang meloncati tidak sama dengan nilai i
+							if jumpedOver[0] == v { // nilai yg diloncati dinilai v
+								jumpedOver[0] = i
+							}
+
 						}
 					} else { // nilai v loncat 2 kali
-						CountBribes++
 						jumpedOver[1] = jumped1st[0]
 						jumped1st[0] = 0
 						jumping[1] = v
+
 					}
+				}
+			}
+			// do countBribes
+			for _, s := range jumping {
+				if s != 0 {
+					CountBribes++
 				}
 			}
 
@@ -115,20 +145,16 @@ func main() {
 
 	// input
 
-	//          {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }
-	//           1  0  2  2  0  0  2  1  2   0  0 // = 10
-	q := []int32{2, 1, 5, 6, 3, 4, 9, 8, 11, 7, 10}
-	ex := "10"
-	// q := []int32{2, 1, 5, 6, 7, 8, 9, 10, 11, 3, 4}
+	// q := []int32{2, 1, 5, 6, 3, 4, 9, 8, 11, 7, 10} // [SUCCESS]
+	// ex := "10"
+	// q := []int32{2, 1, 5, 6, 7, 8, 9, 10, 11, 3, 4} // [SUCCESS]
 	// ex := "15"
-	// q := []int32{2, 1, 5, 6, 7, 8, 9, 10, 11, 4, 3}
+	// q := []int32{2, 1, 5, 6, 7, 8, 9, 10, 11, 4, 3} // [SUCCESS]
 	// ex := "16"
-	// q := []int32{2, 1, 5, 6, 7, 8, 9, 10, 4, 11, 3}
-	// ex := "16"
-	//          {1, 2, 3, 4, 5, 6, 7, 8}
-	//           0  0  2  0  2  2  1  0   =
-	// q := []int32{1, 2, 5, 3, 7, 8, 6, 4}
-	// ex := "7"
+	// q := []int32{2, 1, 5, 6, 7, 8, 9, 10, 4, 11, 3} // [SUCCESS]
+	// ex := "15"
+	q := []int32{1, 2, 5, 3, 7, 8, 6, 4}
+	ex := "7"
 	// q := []int32{2, 1, 5, 3, 4}
 	// ex := "3"
 	// q := []int32{2, 1, 5, 4, 3}
