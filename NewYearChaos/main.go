@@ -121,6 +121,7 @@ func minimumBribes(q []int32) {
 						jumped1st[0] = 0
 						jumping[1] = v
 
+						// cek jumping
 					}
 				}
 			}
